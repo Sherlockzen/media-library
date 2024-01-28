@@ -1,70 +1,52 @@
+"use server";
+import { signinSchema } from "@/schema";
 import { lucia } from "@/server/auth";
 import { db } from "@/server/db/db";
 import { userTable } from "@/server/db/schema";
+import { error, log } from "console";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
+import { z } from "zod";
 
-export async function login(formData: FormData) {
- const username = formData.get("username");
- if (
-  typeof username !== "string" ||
-  username.length < 3 ||
-  username.length > 31 ||
-  !/^[a-z0-9_-]+$/.test(username)
- ) {
+export async function login(values: z.infer<typeof signinSchema>) {
+ const validateValues = signinSchema.safeParse(values);
+
+ if (!validateValues.success) {
   return {
-   error: "Invalid username",
-  };
- }
- const password = formData.get("password");
- if (
-  typeof password !== "string" ||
-  password.length < 6 ||
-  password.length > 255
- ) {
-  return {
-   error: "Invalid password",
+   error: "Não foi possível realizar login",
   };
  }
 
- //TODO: FAZER IMPLEMENTACAO DE CHECAR USER
- //  const existingUser = await db.query.userTable.findFirst({
- //   where: eq(userTable.id, userId)
- //  })
+ const { email, password } = validateValues.data;
 
- //  if (!existingUser) {
- //   // NOTE:
- //   // Returning immediately allows malicious actors to figure out valid usernames from response times,
- //   // allowing them to only focus on guessing passwords in brute-force attacks.
- //   // As a preventive measure, you may want to hash passwords even for invalid usernames.
- //   // However, valid usernames can be already be revealed with the signup page among other methods.
- //   // It will also be much more resource intensive.
- //   // Since protecting against this is none-trivial,
- //   // it is crucial your implementation is protected against brute-force attacks with login throttling etc.
- //   // If usernames are public, you may outright tell the user that the username is invalid.
- //   return {
- //    error: "Incorrect username or password",
- //   };
- //  }
+ const existUser = await db.query.userTable.findFirst({
+  where: eq(userTable.email, email),
+ });
 
- //  const validPassword = await new Argon2id().verify(
- //   existingUser.password,
- //   password
- //  );
- //  if (!validPassword) {
- //   return {
- //    error: "Incorrect username or password",
- //   };
- //  }
+ if (!existUser) {
+  return {
+   error: "Usuário ou senha incorretos",
+  };
+ }
 
- //  const session = await lucia.createSession(existingUser.id, {});
- //  const sessionCookie = lucia.createSessionCookie(session.id);
- //  cookies().set(
- //   sessionCookie.name,
- //   sessionCookie.value,
- //   sessionCookie.attributes
- //  );
- //  return redirect("/");
+ const validPassword = await new Argon2id().verify(
+  existUser.password,
+  password
+ );
+ if (!validPassword) {
+  return {
+   error: "Usuário ou senha incorretos",
+  };
+ }
+
+ const session = await lucia.createSession(existUser.id, {});
+ const sessionCookie = lucia.createSessionCookie(session.id);
+ cookies().set(
+  sessionCookie.name,
+  sessionCookie.value,
+  sessionCookie.attributes
+ );
+ return redirect("/");
 }

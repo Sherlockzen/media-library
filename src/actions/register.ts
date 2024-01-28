@@ -1,46 +1,46 @@
 "use server";
 
+import { signupSchema } from "@/schema";
 import { lucia } from "@/server/auth";
 import { db } from "@/server/db/db";
 import { userTable } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
+import { z } from "zod";
 
-export async function signup(formData: FormData): Promise<ActionResult> {
- const username = formData.get("username");
- // username must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
- // keep in mind some database (e.g. mysql) are case insensitive
- if (
-  typeof username !== "string" ||
-  username.length < 3 ||
-  username.length > 31 ||
-  !/^[a-z0-9_-]+$/.test(username)
- ) {
+export async function signup(values: z.infer<typeof signupSchema>) {
+ const validateValues = signupSchema.safeParse(values);
+
+ if (!validateValues.success) {
   return {
-   error: "Invalid username",
+   error: "Erro ao cadastrar usuario",
   };
  }
- const password = formData.get("password");
- if (
-  typeof password !== "string" ||
-  password.length < 6 ||
-  password.length > 255
- ) {
-  return {
-   error: "Invalid password",
-  };
- }
+
+ const { email, password, name } = validateValues.data;
 
  const hashedPassword = await new Argon2id().hash(password);
+
+ const existUser = await db.query.userTable.findFirst({
+  where: eq(userTable.email, email),
+ });
+
+ if (existUser) {
+  return {
+   error: "Usuario ja existe",
+  };
+ }
+
  const userId = generateId(15);
 
- // TODO: check if username is already used
  await db.insert(userTable).values({
   id: userId,
-  username: username,
+  name: name,
   password: hashedPassword,
+  email: email,
  });
 
  const session = await lucia.createSession(userId, {});
@@ -51,8 +51,4 @@ export async function signup(formData: FormData): Promise<ActionResult> {
   sessionCookie.attributes
  );
  return redirect("/");
-}
-
-interface ActionResult {
- error: string;
 }

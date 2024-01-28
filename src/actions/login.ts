@@ -48,5 +48,5 @@ export async function login(values: z.infer<typeof signinSchema>) {
   sessionCookie.value,
   sessionCookie.attributes
  );
- return redirect("/");
+ return redirect("/authorized");
 }

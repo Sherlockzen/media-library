@@ -31,3 +31,14 @@ export const signinSchema = z.object({
    message: "Campo de senha suporta no máximo 80 caracteres",
   }),
 });
+
+export const dataMediaSchema = z.object({
+ id: z.string(),
+ owner_id: z.string(),
+ title: z.string(),
+ url: z.string(),
+ size: z.number(),
+ type: z.string(),
+ created_at: z.string(),
+ updated_at: z.string(),
+});

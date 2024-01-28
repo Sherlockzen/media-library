@@ -12,6 +12,7 @@ import {
  DialogTrigger,
  DialogClose,
 } from "@/components/ui/dialog";
+import MediaTable from "@/components/mediaList/mediaList";
 
 const arquives = [
  { title: "Anotacoes", size: 25, type: "txt" },
@@ -39,7 +40,8 @@ async function Page() {
       />
      ))}
     </MediaContainer>
-    <div className=" p-6 w-full flex justify-center">
+    <MediaTable />
+    <div className=" p-6 w-full flex flex-col items-center justify-center">
      <Dialog>
       <DialogTrigger asChild>
        <Button className=" rounded-3xl w-80">Enviar arquivo</Button>

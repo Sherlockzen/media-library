@@ -19,8 +19,6 @@ async function Page() {
   return <div>NAO ESTA AUTORIZADO</div>;
  }
 
- const signedURLResult = await getSignedURL();
-
  return (
   <section className=" pt-14 border-b">
    <div>

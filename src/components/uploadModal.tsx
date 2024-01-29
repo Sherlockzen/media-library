@@ -4,19 +4,13 @@ import {
  DialogTrigger,
  DialogContent,
  DialogTitle,
- DialogDescription,
  DialogHeader,
 } from "./ui/dialog";
-import React, {
- MouseEventHandler,
- startTransition,
- useState,
- useEffect,
-} from "react";
+import React, { startTransition, useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import UploadFile from "./uploadFile";
 import { Preview } from "./preview";
 import { getSignedURL } from "@/actions/signedUrl";
+import { saveFileToDb } from "@/actions/saveFileDb";
 
 function UploadModal() {
  const [file, setFile] = useState<File | undefined>(undefined);
@@ -26,7 +20,6 @@ function UploadModal() {
 
  const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-  // const file = (e.target as HTMLFormElement).fileUpload.files?.[0];
   if (!file) return;
   const { name, size, type } = file as File;
   startTransition(() => {
@@ -48,12 +41,14 @@ function UploadModal() {
       const { hostname, pathname } = new URL(result.url);
       const splitPath = pathname.split("/").filter(Boolean);
       const key = splitPath[splitPath.length - 1];
-      // await saveFileToDb({
-      //  name: fileName,
-      //  format: fileType,
-      //  size: fileSize,
-      //  key,
-      // });
+      await saveFileToDb({
+       title: name,
+       type: type,
+       size: size,
+       url: key,
+      }).then((result) => {
+       console.log(result);
+      });
       console.log(result.url);
      }
     });

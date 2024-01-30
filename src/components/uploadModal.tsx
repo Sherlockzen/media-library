@@ -11,12 +11,14 @@ import { Button } from "./ui/button";
 import { Preview } from "./preview";
 import { getSignedURL } from "@/actions/signedUrl";
 import { saveFileToDb } from "@/actions/saveFileDb";
+import { useRouter } from "next/navigation";
 
 function UploadModal() {
  const [file, setFile] = useState<File | undefined>(undefined);
  const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
  const [uploadStatus, setUploadStatus] = useState({});
  const [uploadURL, setUploadURL] = useState<string>("");
+ const router = useRouter();
 
  const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
@@ -49,6 +51,7 @@ function UploadModal() {
       }).then((result) => {
        console.log(result);
       });
+      router.refresh();
       console.log(result.url);
      }
     });

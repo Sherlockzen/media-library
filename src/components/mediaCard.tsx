@@ -9,27 +9,15 @@ import {
  CardTitle,
 } from "@/components/ui/card";
 
-function MediaCard({
- title,
- size,
- type,
-}: {
- title: string;
- size: number;
- type: string;
-}) {
+function MediaCard({ title, value }: { title: string; value?: string }) {
  return (
-  <Card>
+  <Card className=" w-64 items-center">
    <CardHeader>
-    <p>Card Content</p>
+    <p>{title}</p>
    </CardHeader>
    <CardContent>
-    <CardTitle>{title}</CardTitle>
-    <CardDescription>Tamanho: {size}</CardDescription>
+    <CardTitle>{value}</CardTitle>
    </CardContent>
-   <CardFooter>
-    <p>Card Footer</p>
-   </CardFooter>
   </Card>
  );
 }

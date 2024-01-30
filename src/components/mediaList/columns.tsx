@@ -1,17 +1,7 @@
 "use client";
-import { dataMediaSchema } from "@/schema";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
- DropdownMenu,
- DropdownMenuContent,
- DropdownMenuItem,
- DropdownMenuLabel,
- DropdownMenuSeparator,
- DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import ModalPreview from "../modalPreview";
+import ModalDelete from "../modalDelete";
 
 export type Media = {
  id: string;
@@ -20,18 +10,31 @@ export type Media = {
  url: string;
  size: number;
  type: string;
- created_at: string;
- updated_at: string;
+ created_at: Date | null;
+ updated_at: Date | null;
 };
 
 export const columns: ColumnDef<Media>[] = [
  {
   accessorKey: "title",
   header: "Título",
+  cell: ({ row }) => {
+   const media = row.original;
+
+   return (
+    <ModalPreview title={media.title} url={media.url} type={media.type} />
+   );
+  },
  },
  {
   accessorKey: "size",
   header: "Tamanho",
+  cell: ({ row }) => {
+   const value = parseInt(row.getValue("size"));
+   const formatted = (value / 1000).toFixed(1);
+
+   return <div>{formatted} kb</div>;
+  },
  },
  {
   accessorKey: "type",
@@ -46,25 +49,7 @@ export const columns: ColumnDef<Media>[] = [
   cell: ({ row }) => {
    const media = row.original;
 
-   return (
-    <DropdownMenu>
-     <DropdownMenuTrigger asChild>
-      <Button variant="ghost" className="h-8 w-8 p-0">
-       <span className="sr-only">Open menu</span>
-       <MoreHorizontal className="h-4 w-4" />
-      </Button>
-     </DropdownMenuTrigger>
-     <DropdownMenuContent align="end">
-      <DropdownMenuLabel>Ações</DropdownMenuLabel>
-      {/* <DropdownMenuItem onClick={() => navigator.clipboard.writeText(media.id)}>
-       Copy payment ID
-      </DropdownMenuItem>
-      <DropdownMenuSeparator /> */}
-      <DropdownMenuItem>Editar Título</DropdownMenuItem>
-      <DropdownMenuItem>Deletar Arquivo</DropdownMenuItem>
-     </DropdownMenuContent>
-    </DropdownMenu>
-   );
+   return <ModalDelete mediaId={media.id} fileName={media.title} />;
   },
  },
 ];

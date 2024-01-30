@@ -31,7 +31,7 @@ export const columns: ColumnDef<Media>[] = [
   header: "Tamanho",
   cell: ({ row }) => {
    const value = parseInt(row.getValue("size"));
-   const formatted = (value / 1000).toFixed(1);
+   const formatted = (value / 1024).toFixed(1);
 
    return <div>{formatted} kb</div>;
   },
@@ -43,6 +43,11 @@ export const columns: ColumnDef<Media>[] = [
  {
   accessorKey: "created_at",
   header: "Data de criação",
+  cell: ({ row }) => {
+   const createdAt = row.original.created_at;
+
+   return createdAt?.toLocaleDateString("pt-BR");
+  },
  },
  {
   id: "actions",

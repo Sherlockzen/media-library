@@ -25,8 +25,11 @@ export async function getSignedURL(fileName: string, fileSize: number, fileType:
 
   const putObjectCommand = new PutObjectCommand({
     Bucket: process.env.AWS_BUCKET_NAME!,
-    Key: 'test' + fileName,
+    Key: session.userId + fileName,
     ContentDisposition: `inline; filename="${fileName}"`,
+    Metadata: {
+      userId: session.userId
+    }
   });
 
   const signedURL = await getSignedUrl(s3, putObjectCommand, {

@@ -1,27 +1,19 @@
+import { db } from "@/server/db/db";
 import { Media, columns } from "./columns";
 import { DataTable } from "./dataTable";
+import { midiaTable } from "@/server/db/schema";
 
 async function getData(): Promise<Media[]> {
  // Fetch data from your API here.
- return [
-  {
-   id: "asdfgasefasd",
-   owner_id: "alskjdf1k341l",
-   size: 123,
-   title: "pdf do livro",
-   type: "pdf",
-   created_at: "23/01/2024",
-   updated_at: "",
-   url: "localhost.com/pdf",
-  },
- ];
+ const result = await db.select().from(midiaTable);
+ return result;
 }
 
-export default async function mediaTable() {
+export default async function MediaTable() {
  const data = await getData();
 
  return (
-  <div className="container mx-auto py-10">
+  <div className="container mx-auto py-10 max-w-[1000px]">
    <DataTable columns={columns} data={data} />
   </div>
  );

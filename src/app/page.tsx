@@ -2,38 +2,50 @@ import { Button } from "@/components/ui/button";
 import { validateRequest } from "@/server/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 export default async function Home() {
  const { session } = await validateRequest();
 
  if (session) {
-  return redirect("/authorized");
+  return redirect("/dashboard");
  }
 
  return (
-  <main className="flex min-h-screen flex-col items-center justify-between p-24">
-   <div className=" flex items-center md:max-w-5xl">
-    <div className=" grid gap-5">
-     <h1 className=" text-5xl font-extrabold ">
-      Uma plataforma simples para{" "}
-      <span className=" text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">
-       armazenamento
-      </span>{" "}
-      de arquivos pessoais.
-     </h1>
-     <p className=" text-gray-600">
-      Crie o seu usuário e comece a enviar arquivos para nuvem
-     </p>
-     <div className=" flex gap-8">
-      <Link href={"/signup"}>
-       <Button>Criar Usuário</Button>
-      </Link>
-      <Link href={"/login"}>
-       <Button>Entrar</Button>
-      </Link>
+  <main className=" h-svh pt-28">
+   <section className=" flex flex-col md:flex-col xl:flex-row md:items-center md:justify-center text-center xl:text-left gap-12 ">
+    <div className=" mx-8 xl:flex xl:items-center xl:justify-center md:max-w-lg lg:max-w-4xl xl:max-w-7xl gap-8">
+     <div className=" flex flex-col gap-8 ">
+      <h1 className="text-5xl md:text-6xl font-geist">
+       Salve de forma simples na nuvem
+      </h1>
+      <p className=" opacity-50">
+       Tenha os seus arquivos salvos em nuvem com um app minimalista e direto.
+       Veja como é fácil, crie sua conta e comece a usar!
+      </p>
+      <div className=" flex flex-col xl:flex-col sm:flex-row sm:justify-center gap-6">
+       <Button
+        size={"lg"}
+        className=" sm:w-[75%] xl:w-full sm:max-w-96 md:max-w-full"
+       >
+        Criar conta
+       </Button>
+       <Button variant={"outline"} className=" md:max-w-full">
+        Entrar
+       </Button>
+      </div>
+     </div>
+     <div className=" px-0.5 md:px-6  flex justify-center items-center lg:justify-start">
+      <Image
+       src={"/media-library-dashboard.png"}
+       alt="Captura da página de dashboard do app"
+       width={1600}
+       height={1600}
+       className=" mt-20 xl:mt-0"
+      />
      </div>
     </div>
-   </div>
+   </section>
   </main>
  );
 }

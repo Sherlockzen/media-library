@@ -24,15 +24,19 @@ export default async function Home() {
        Veja como é fácil, crie sua conta e comece a usar!
       </p>
       <div className=" flex flex-col xl:flex-col sm:flex-row sm:justify-center gap-6">
-       <Button
-        size={"lg"}
+       <Link
+        href={"/signup"}
         className=" sm:w-[75%] xl:w-full sm:max-w-96 md:max-w-full"
        >
-        Criar conta
-       </Button>
-       <Button variant={"outline"} className=" md:max-w-full">
-        Entrar
-       </Button>
+        <Button className="w-full" size={"lg"}>
+         Criar conta
+        </Button>
+       </Link>
+       <Link href={"/login"} className=" md:max-w-full">
+        <Button className=" w-full" variant={"outline"}>
+         Entrar
+        </Button>
+       </Link>
       </div>
      </div>
      <div className=" px-0.5 md:px-6  flex justify-center items-center lg:justify-start">

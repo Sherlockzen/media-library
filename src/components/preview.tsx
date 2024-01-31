@@ -16,11 +16,10 @@ export function Preview({
   case "image":
    return (
     <div className="flex flex-col w-full items-center">
-     <div className="font-bold text-2xl sm:text-3xl">Image Preview</div>
      <Image
       alt={name ? name : "Pre visualização"}
       src={fileUrl ? fileUrl : ""}
-      className=" max-w-96 aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
+      className=" max-w-96 max-h-96 aspect-square border object-contain border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
       height={600}
       width={600}
      />
@@ -32,8 +31,7 @@ export function Preview({
    return (
     <div className="flex flex-col items-start max-w-96 md:max-w-6xl">
      <div className="flex flex-col gap-4 items-start">
-      <h1 className="font-bold text-2xl sm:text-3xl">Video Preview</h1>
-      <video className=" max-w-96" src={fileUrl} controls></video>
+      <video className=" max-w-96 max-h-96" src={fileUrl} controls></video>
       <div className="flex justify-center w-full"></div>
      </div>
     </div>

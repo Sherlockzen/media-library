@@ -15,7 +15,6 @@ export type databaseUser = typeof userTable._.inferSelect;
 
 export const userTable = pgTable("user", {
   id: text("id").primaryKey().notNull(),
-  name: text("name").notNull(),
   email: text("email").notNull(),
   password: text("password").notNull(),
   role: roleEnum("role").default("USER"),

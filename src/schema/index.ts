@@ -1,14 +1,6 @@
 import { z } from "zod";
 
 export const signupSchema = z.object({
-  name: z
-    .string()
-    .min(3, {
-      message: "Campo usuário precisa ter no mínimo 3 caracteres",
-    })
-    .max(30, {
-      message: "Campo usuário pode ter no máximo 30 caracteres",
-    }),
   password: z
     .string()
     .min(8, {

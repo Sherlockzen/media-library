@@ -1,0 +1,1 @@
+ALTER TABLE "midia-library_user" DROP COLUMN IF EXISTS "name";

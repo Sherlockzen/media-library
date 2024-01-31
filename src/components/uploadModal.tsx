@@ -5,26 +5,49 @@ import {
  DialogContent,
  DialogTitle,
  DialogHeader,
+ DialogFooter,
 } from "./ui/dialog";
-import React, { startTransition, useState, useEffect } from "react";
+import React, { useTransition, useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Preview } from "./preview";
 import { getSignedURL } from "@/actions/signedUrl";
 import { saveFileToDb } from "@/actions/saveFileDb";
 import { useRouter } from "next/navigation";
+import { Check, Trash } from "lucide-react";
+import { Progress } from "./ui/progress";
+import { Input } from "./ui/input";
 
 function UploadModal() {
  const [file, setFile] = useState<File | undefined>(undefined);
  const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
  const [uploadStatus, setUploadStatus] = useState({});
  const [uploadURL, setUploadURL] = useState<string>("");
+ const [uploadProgress, setUploadProgress] = useState(0);
+ const [isPending, startTransition] = useTransition();
+ const [inputValue, setInputValue] = useState(undefined);
  const router = useRouter();
+
+ const startProgress = () => {
+  setUploadProgress(0);
+
+  const interval = setInterval(() => {
+   setUploadProgress((prevProgress) => {
+    if (prevProgress >= 97) {
+     clearInterval(interval);
+     return prevProgress;
+    }
+    return prevProgress + 3;
+   });
+  }, 300);
+  return interval;
+ };
 
  const handleUpload = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   if (!file) return;
   const { name, size, type } = file as File;
   startTransition(() => {
+   startProgress();
    if (file) {
     getSignedURL(name, size, type).then(async (result) => {
      if (result.failure !== undefined) {
@@ -48,19 +71,14 @@ function UploadModal() {
        type: type,
        size: size,
        url: key,
-      }).then((result) => {
-       console.log(result);
       });
-      router.refresh();
-      console.log(result.url);
      }
     });
    }
   });
-  console.log(file);
+  router.refresh();
+  setUploadProgress(100);
  };
-
- console.log(uploadStatus);
 
  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   setFile(e.target.files?.[0]);
@@ -68,8 +86,6 @@ function UploadModal() {
   if (fileUrl) {
    URL.revokeObjectURL(fileUrl);
   }
-
-  console.log(file);
  };
 
  useEffect(() => {
@@ -83,43 +99,68 @@ function UploadModal() {
 
  return (
   <div className=" w-full flex flex-col items-center justify-center">
-   <Dialog>
+   <Dialog
+    onOpenChange={(open) => {
+     if (!open) {
+      router.refresh();
+
+      setFile(undefined);
+      setFileUrl(undefined);
+
+      setUploadProgress(0);
+     }
+    }}
+   >
     <DialogTrigger asChild>
      <Button>Enviar arquivo</Button>
     </DialogTrigger>
-    <DialogContent className=" p-1">
-     <DialogHeader className=" p-8 ">
-      <DialogTitle className=" mb-10">
-       Escolha o arquivo a ser enviado
-      </DialogTitle>
+    <DialogContent className=" p-1 sm:max-w-[425px] ">
+     <DialogHeader className=" p-3 ">
+      <DialogTitle></DialogTitle>
      </DialogHeader>
      {file && (
-      <div className=" flex flex-col gap-4 items-start md:items-center justify-center w-full">
+      <div className=" flex flex-col items-start md:items-center justify-center w-full">
+       {(file.type.startsWith("image/") || file.type.startsWith("video/")) && (
+        <Trash
+         color="#ef4444"
+         className=" relative z-10 top-8 right-5 self-end cursor-pointer"
+         onClick={() => {
+          setFileUrl(undefined);
+          setFile(undefined);
+         }}
+        />
+       )}
+
        <Preview name={file?.name} type={file?.type} fileUrl={fileUrl} />
-       <Button
-        className=""
-        onClick={() => {
-         setFileUrl(undefined);
-         setFile(undefined);
-        }}
-        size="default"
-       >
-        Remove
-       </Button>
       </div>
      )}
      <form
       onSubmit={handleUpload}
-      className=" flex flex-col items-start md:flex-row gap-4 md:items-center"
+      className=" flex flex-col items-start gap-4 md:items-center"
      >
-      <input
-       name="fileUpload"
-       onChange={handleChange}
-       type="file"
-       className=" border-2 p-2"
-      />
+      <div>
+       <Input
+        name="fileUpload"
+        onChange={handleChange}
+        type="file"
+        className=" border-2"
+       />
+      </div>
       <Button type="submit">Enviar</Button>
      </form>
+     <DialogFooter>
+      {isPending ? (
+       <div className="mx-auto mt-4 w-full max-w-xs">
+        <Progress value={uploadProgress} className="h-1 w-full " />
+       </div>
+      ) : null}
+      {!isPending && uploadProgress === 100 && (
+       <div className="bg-emerald-500/15 p-3 rounded-md w-full flex items-center gap-x-2 text-sm text-emerald-500">
+        <Check className="h-4 w-4" />
+        <p>Upload Completo!</p>
+       </div>
+      )}
+     </DialogFooter>
     </DialogContent>
    </Dialog>
   </div>

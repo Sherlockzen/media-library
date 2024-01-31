@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/themesProvider";
 import { GeistSans } from "geist/font/sans";
 
-// const inter = Inter({ subsets: ["latin"] });
 const inter = Inter({
  subsets: ["latin"],
 });

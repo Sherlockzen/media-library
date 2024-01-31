@@ -1,3 +1,4 @@
+'use server'
 import { validateRequest } from "@/server/auth";
 import { db } from "@/server/db/db";
 import { midiaTable } from "@/server/db/schema";

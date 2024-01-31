@@ -25,7 +25,7 @@ function ModalPreview({ title, url, type }: propsModalPreview) {
    return (
     <Dialog>
      <DialogTrigger>{title}</DialogTrigger>
-     <DialogContent>
+     <DialogContent className=" flex flex-col items-center">
       <DialogHeader>
        <DialogTitle className=" text-center">{title}</DialogTitle>
       </DialogHeader>
@@ -39,7 +39,7 @@ function ModalPreview({ title, url, type }: propsModalPreview) {
    return (
     <Dialog>
      <DialogTrigger>{title}</DialogTrigger>
-     <DialogContent>
+     <DialogContent className=" flex flex-col items-center">
       <DialogHeader>
        <DialogTitle className=" text-center">{title}</DialogTitle>
       </DialogHeader>

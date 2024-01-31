@@ -1,3 +1,4 @@
+"use client";
 import {
  AlertDialog,
  AlertDialogAction,
@@ -20,6 +21,7 @@ import {
 import { Button } from "./ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { deleteFile } from "@/actions/deleteFile";
+import { useRouter } from "next/navigation";
 
 function ModalDelete({
  mediaId,
@@ -28,6 +30,7 @@ function ModalDelete({
  mediaId: string;
  fileName: string;
 }) {
+ const router = useRouter();
  const handleDelete = async () => {
   await deleteFile(mediaId, fileName).then((result) => {
    return {
@@ -37,7 +40,13 @@ function ModalDelete({
  };
 
  return (
-  <AlertDialog>
+  <AlertDialog
+   onOpenChange={(open) => {
+    if (!open) {
+     router.refresh();
+    }
+   }}
+  >
    <DropdownMenu>
     <DropdownMenuTrigger asChild>
      <Button variant="ghost" className="h-8 w-8 p-0">

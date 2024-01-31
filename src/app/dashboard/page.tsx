@@ -25,8 +25,6 @@ async function Page() {
   value === "error" ? 0 : value
  );
 
- console.log(count);
-
  const mostUsedType = await fetchMostUsedValueWithUserID().then((value) =>
   value === "error" ? "" : value
  );
@@ -41,7 +39,6 @@ async function Page() {
       <MediaCard title="Tipo mais enviado:" value={mostUsedType} />
      </div>
     </MediaContainer>
-
     <MediaTable />
    </div>
   </section>

@@ -11,7 +11,7 @@ import {
 
 function MediaCard({ title, value }: { title: string; value?: string }) {
  return (
-  <Card className=" w-64 items-center">
+  <Card className=" w-64 items-center h-32">
    <CardHeader>
     <p>{title}</p>
    </CardHeader>

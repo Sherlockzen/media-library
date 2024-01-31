@@ -27,11 +27,9 @@ function ModalPreview({ title, url, type }: propsModalPreview) {
      <DialogTrigger>{title}</DialogTrigger>
      <DialogContent>
       <DialogHeader>
-       <DialogDescription className=" m-auto">
-        <Image src={url} width={350} height={350} alt={title} />
-       </DialogDescription>
        <DialogTitle className=" text-center">{title}</DialogTitle>
       </DialogHeader>
+      <Image src={url} width={350} height={350} alt={title} />
      </DialogContent>
     </Dialog>
    );
@@ -43,11 +41,9 @@ function ModalPreview({ title, url, type }: propsModalPreview) {
      <DialogTrigger>{title}</DialogTrigger>
      <DialogContent>
       <DialogHeader>
-       <DialogDescription className=" m-auto">
-        <video src={url} controls></video>
-       </DialogDescription>
        <DialogTitle className=" text-center">{title}</DialogTitle>
       </DialogHeader>
+      <video src={url} controls></video>
      </DialogContent>
     </Dialog>
    );

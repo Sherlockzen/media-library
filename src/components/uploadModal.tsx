@@ -82,33 +82,36 @@ function UploadModal() {
  }, [file]);
 
  return (
-  <div className=" p-6 w-full flex flex-col items-center justify-center">
+  <div className=" w-full flex flex-col items-center justify-center">
    <Dialog>
     <DialogTrigger asChild>
-     <Button className=" rounded-3xl w-80">Enviar arquivo</Button>
+     <Button>Enviar arquivo</Button>
     </DialogTrigger>
-    <DialogContent>
+    <DialogContent className=" p-1">
      <DialogHeader className=" p-8 ">
       <DialogTitle className=" mb-10">
        Escolha o arquivo a ser enviado
       </DialogTitle>
      </DialogHeader>
      {file && (
-      <div className=" flex flex-col gap-4 items-start justify-center w-full px-4">
+      <div className=" flex flex-col gap-4 items-start md:items-center justify-center w-full">
        <Preview name={file?.name} type={file?.type} fileUrl={fileUrl} />
        <Button
-        className=" mr-2"
+        className=""
         onClick={() => {
          setFileUrl(undefined);
          setFile(undefined);
         }}
-        size="lg"
+        size="default"
        >
         Remove
        </Button>
       </div>
      )}
-     <form onSubmit={handleUpload} className=" flex gap-4 items-center">
+     <form
+      onSubmit={handleUpload}
+      className=" flex flex-col items-start md:flex-row gap-4 md:items-center"
+     >
       <input
        name="fileUpload"
        onChange={handleChange}

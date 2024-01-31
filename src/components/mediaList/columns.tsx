@@ -2,6 +2,8 @@
 import { ColumnDef } from "@tanstack/react-table";
 import ModalPreview from "../modalPreview";
 import ModalDelete from "../modalDelete";
+import { Button } from "../ui/button";
+import { formatFileSize } from "@/utils/formatFileSize";
 
 export type Media = {
  id: string;
@@ -31,9 +33,9 @@ export const columns: ColumnDef<Media>[] = [
   header: "Tamanho",
   cell: ({ row }) => {
    const value = parseInt(row.getValue("size"));
-   const formatted = (value / 1024).toFixed(1);
 
-   return <div>{formatted} kb</div>;
+   const formatted = formatFileSize(value);
+   return <div>{formatted}</div>;
   },
  },
  {
@@ -42,7 +44,16 @@ export const columns: ColumnDef<Media>[] = [
  },
  {
   accessorKey: "created_at",
-  header: "Data de criação",
+  header: ({ column }) => {
+   return (
+    <Button
+     variant={"ghost"}
+     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    >
+     Data de criação
+    </Button>
+   );
+  },
   cell: ({ row }) => {
    const createdAt = row.original.created_at;
 

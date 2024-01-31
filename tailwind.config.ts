@@ -7,7 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   prefix: "",
   theme: {
     container: {
@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        geist: ['var(--font-geist-sans)'],
+        // sans: ['var(--font-inter)'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -73,6 +77,7 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
+
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config

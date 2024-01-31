@@ -8,10 +8,10 @@ import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 const s3 = new S3Client({
   apiVersion: "latest",
-  region: process.env.AWS_BUCKET_REGION!,
+  region: process.env.BUCKET_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.ACCESS_KEY!,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY!,
   },
 });
 
@@ -29,7 +29,7 @@ export async function deleteFile(fileId: string, fileName: string) {
     .returning();
 
   const deleteFromS3 = new DeleteObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME!,
+    Bucket: process.env.BUCKET_NAME!,
     Key: session.userId + fileName,
   })
 

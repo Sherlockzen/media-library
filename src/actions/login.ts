@@ -11,42 +11,42 @@ import { Argon2id } from "oslo/password";
 import { z } from "zod";
 
 export async function login(values: z.infer<typeof signinSchema>) {
- const validateValues = signinSchema.safeParse(values);
+  const validateValues = signinSchema.safeParse(values);
 
- if (!validateValues.success) {
-  return {
-   error: "Não foi possível realizar login",
-  };
- }
+  if (!validateValues.success) {
+    return {
+      error: "Não foi possível realizar login",
+    };
+  }
 
- const { email, password } = validateValues.data;
+  const { email, password } = validateValues.data;
 
- const existUser = await db.query.userTable.findFirst({
-  where: eq(userTable.email, email),
- });
+  const existUser = await db.query.userTable.findFirst({
+    where: eq(userTable.email, email),
+  });
 
- if (!existUser) {
-  return {
-   error: "Usuário ou senha incorretos",
-  };
- }
+  if (!existUser) {
+    return {
+      error: "Usuário ou senha incorretos",
+    };
+  }
 
- const validPassword = await new Argon2id().verify(
-  existUser.password,
-  password
- );
- if (!validPassword) {
-  return {
-   error: "Usuário ou senha incorretos",
-  };
- }
+  const validPassword = await new Argon2id().verify(
+    existUser.password,
+    password
+  );
+  if (!validPassword) {
+    return {
+      error: "Usuário ou senha incorretos",
+    };
+  }
 
- const session = await lucia.createSession(existUser.id, {});
- const sessionCookie = lucia.createSessionCookie(session.id);
- cookies().set(
-  sessionCookie.name,
-  sessionCookie.value,
-  sessionCookie.attributes
- );
- return redirect("/authorized");
+  const session = await lucia.createSession(existUser.id, {});
+  const sessionCookie = lucia.createSessionCookie(session.id);
+  cookies().set(
+    sessionCookie.name,
+    sessionCookie.value,
+    sessionCookie.attributes
+  );
+  return redirect("/dashboard");
 }

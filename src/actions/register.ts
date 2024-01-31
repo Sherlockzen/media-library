@@ -20,7 +20,7 @@ export async function signup(values: z.infer<typeof signupSchema>) {
     };
   }
 
-  const { email, password, name } = validateValues.data;
+  const { email, password } = validateValues.data;
 
   const hashedPassword = await new Argon2id().hash(password);
 
@@ -38,7 +38,6 @@ export async function signup(values: z.infer<typeof signupSchema>) {
 
   await db.insert(userTable).values({
     id: userId,
-    name: name,
     password: hashedPassword,
     email: email,
   });
@@ -50,5 +49,5 @@ export async function signup(values: z.infer<typeof signupSchema>) {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/authorized");
+  return redirect("/dashboard");
 }

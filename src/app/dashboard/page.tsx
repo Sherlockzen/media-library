@@ -66,12 +66,12 @@ async function Page() {
       <MediaCard title="Quantidade total:" value={`${quant[0].value}`} />
       <MediaCard
        title="Tipo mais enviado:"
-       value={mostUsedValueWithUserID[0].value}
+       value={mostUsedValueWithUserID[0]?.value}
       />
      </div>
     </MediaContainer>
+
     <MediaTable />
-    <UploadModal />
    </div>
   </section>
  );

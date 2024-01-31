@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Navbar from "@/components/navbar";
 
-function AuthorizedLayout({ children }: { children: ReactNode }) {
+function DashboardLayout({ children }: { children: ReactNode }) {
  return (
   <div>
    <Navbar />
@@ -10,4 +10,4 @@ function AuthorizedLayout({ children }: { children: ReactNode }) {
  );
 }
 
-export default AuthorizedLayout;
+export default DashboardLayout;

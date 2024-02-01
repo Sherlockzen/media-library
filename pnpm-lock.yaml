@@ -20,6 +20,24 @@ dependencies:
   '@neondatabase/serverless':
     specifier: ^0.7.2
     version: 0.7.2
+  '@node-rs/argon2':
+    specifier: ^1.7.2
+    version: 1.7.2
+  '@node-rs/argon2-linux-arm64-gnu':
+    specifier: ^1.7.2
+    version: 1.7.2
+  '@node-rs/argon2-wasm32-wasi':
+    specifier: ^1.7.2
+    version: 1.7.2
+  '@node-rs/bcrypt':
+    specifier: ^1.9.2
+    version: 1.9.2
+  '@node-rs/bcrypt-linux-arm64-gnu':
+    specifier: ^1.9.2
+    version: 1.9.2
+  '@node-rs/bcrypt-wasm32-wasi':
+    specifier: ^1.9.2
+    version: 1.9.2
   '@radix-ui/react-alert-dialog':
     specifier: ^1.0.5
     version: 1.0.5(@types/react-dom@18.2.18)(@types/react@18.2.48)(react-dom@18.2.0)(react@18.2.0)
@@ -1996,7 +2014,6 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: false
-    optional: true
 
   /@emnapi/runtime@0.45.0:
     resolution: {integrity: sha512-Txumi3td7J4A/xTTwlssKieHKTGl3j4A1tglBx72auZ49YK7ePY6XZricgIg9mnZT4xPfA+UPCUdnhRuEFDL+w==}
@@ -2004,7 +2021,6 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: false
-    optional: true
 
   /@envelop/core@3.0.6:
     resolution: {integrity: sha512-06t1xCPXq6QFN7W1JUEf68aCwYN0OUDNAIoJe7bAqhaoa2vn7NCcuX1VHkJ/OWpmElUgCsRO6RiBbIru1in0Ig==}
@@ -2900,7 +2916,6 @@ packages:
       '@emnapi/runtime': 0.45.0
       '@tybys/wasm-util': 0.8.1
     dev: false
-    optional: true
 
   /@neondatabase/serverless@0.7.2:
     resolution: {integrity: sha512-wU3WA2uTyNO7wjPs3Mg0G01jztAxUxzd9/mskMmtPwPTjf7JKWi9AW5/puOGXLxmZ9PVgRFeBVRVYq5nBPhsCg==}
@@ -3060,7 +3075,6 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
-    optional: true
 
   /@node-rs/argon2-linux-arm64-musl@1.7.2:
     resolution: {integrity: sha512-KjhQ+ZPne29t9VRVeIif7JdKwQba+tM6CBNYBoJB1iON0CUKeqSQtZcHuTj9gkf2SNRG5bsU4ABcfxd0OKsKHg==}
@@ -3097,7 +3111,6 @@ packages:
     dependencies:
       '@napi-rs/wasm-runtime': 0.1.1
     dev: false
-    optional: true
 
   /@node-rs/argon2-win32-arm64-msvc@1.7.2:
     resolution: {integrity: sha512-dhIBrY04P9nbmwzBpgERQDmmSu4YBZyeEE32t4TikMz5rQ07iaVC+JpGmtCBZoDIsLDHGC8cikENd3YEqpqIcA==}
@@ -3207,7 +3220,6 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
-    optional: true
 
   /@node-rs/bcrypt-linux-arm64-musl@1.9.2:
     resolution: {integrity: sha512-PRZTAJjOwKEGsIhmBvfNh81So+wGl4QyCFAt23j+KwBujLStjC0N3YaqtTlWVKG9tcriPtmMYiAQtXWIyIgg/w==}
@@ -3244,7 +3256,6 @@ packages:
     dependencies:
       '@napi-rs/wasm-runtime': 0.1.1
     dev: false
-    optional: true
 
   /@node-rs/bcrypt-win32-arm64-msvc@1.9.2:
     resolution: {integrity: sha512-Iyo/Q5/eNw27VRd3mLBgh1b9b5fnT3QHTVwxv3Siv/MRAIfJXH/cTOe18qSwYQzNh0ZioW4yemFPYCWSZi7szA==}
@@ -4556,7 +4567,6 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: false
-    optional: true
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}

@@ -21,10 +21,8 @@ function UploadModal() {
  const [file, setFile] = useState<File | undefined>(undefined);
  const [fileUrl, setFileUrl] = useState<string | undefined>(undefined);
  const [uploadStatus, setUploadStatus] = useState({});
- const [uploadURL, setUploadURL] = useState<string>("");
  const [uploadProgress, setUploadProgress] = useState(0);
  const [isPending, startTransition] = useTransition();
- const [inputValue, setInputValue] = useState(undefined);
  const router = useRouter();
 
  const startProgress = () => {
@@ -46,7 +44,7 @@ function UploadModal() {
   e.preventDefault();
   if (!file) return;
   const { name, size, type } = file as File;
-  startTransition(() => {
+  startTransition(async () => {
    startProgress();
    if (file) {
     getSignedURL(name, size, type).then(async (result) => {
@@ -75,9 +73,12 @@ function UploadModal() {
      }
     });
    }
+   setUploadProgress(99);
+   setTimeout(() => {
+    setUploadProgress(100);
+   }, 500);
+   router.refresh();
   });
-  router.refresh();
-  setUploadProgress(100);
  };
 
  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

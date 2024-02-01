@@ -10,7 +10,7 @@ import {
  fetchMostUsedValueWithUserID,
 } from "@/lib/data";
 
-async function Page() {
+async function Dashboard() {
  const { user } = await validateRequest();
 
  if (!user) {
@@ -45,4 +45,4 @@ async function Page() {
  );
 }
 
-export default Page;
+export default Dashboard;

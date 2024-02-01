@@ -1,14 +1,14 @@
-'use server'
+// 'use server'
 import { validateRequest } from "@/server/auth";
 import { db } from "@/server/db/db";
 import { midiaTable } from "@/server/db/schema";
 import { eq, sum, count, sql, desc } from "drizzle-orm";
 import { formatFileSize } from "@/utils/formatFileSize";
 
-const { user } = await validateRequest();
 
 
 export async function fetchFilesSize() {
+  const { user } = await validateRequest();
 
   if (!user) {
     return 'error'
@@ -26,6 +26,7 @@ export async function fetchFilesSize() {
 }
 
 export async function fetchFilesCount() {
+  const { user } = await validateRequest();
 
   if (!user) {
     return 'error'
@@ -42,6 +43,7 @@ export async function fetchFilesCount() {
 }
 
 export async function fetchMostUsedValueWithUserID() {
+  const { user } = await validateRequest();
 
   if (!user) {
     return 'error'

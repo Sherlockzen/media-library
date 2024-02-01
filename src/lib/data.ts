@@ -60,5 +60,5 @@ export async function fetchMostUsedValueWithUserID() {
     .orderBy(desc(sql<number>`COUNT(${midiaTable.type})`))
     .limit(1);
 
-  return mostUsedValueWithUserID[0]?.value;
+  return mostUsedValueWithUserID[0]?.value.split('/')[1];
 }

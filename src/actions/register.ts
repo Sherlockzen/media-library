@@ -7,7 +7,6 @@ import { userTable } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { generateId } from "lucia";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 import { z } from "zod";
 
@@ -49,5 +48,5 @@ export async function signup(values: z.infer<typeof signupSchema>) {
     sessionCookie.value,
     sessionCookie.attributes
   );
-  return redirect("/dashboard");
+  return { success: 'Usuario criado com successo' };
 }

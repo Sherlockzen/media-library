@@ -3,7 +3,7 @@ import { signup } from "@/actions/register";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
  Form,
  FormControl,
@@ -24,10 +24,13 @@ import {
  CardHeader,
  CardTitle,
 } from "@/components/ui/card";
+import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export default function Page() {
  const [isPending, startTransition] = useTransition();
- const [error, setError] = useState("");
+ const [error, setError] = useState<string | undefined>("");
  const form = useForm<z.infer<typeof signupSchema>>({
   resolver: zodResolver(signupSchema),
   defaultValues: {
@@ -35,10 +38,21 @@ export default function Page() {
    email: "",
   },
  });
+ const [success, setSuccess] = useState<string | undefined>(undefined);
+ const router = useRouter();
 
  const onSubmit = (data: z.infer<typeof signupSchema>) => {
   startTransition(() => {
-   signup(data).then((result) => setError(result?.error));
+   signup(data).then((result) => {
+    setError(result?.error);
+
+    if (result?.success) {
+     setSuccess(result.success);
+     setTimeout(() => {
+      router.push("/dashboard");
+     }, 500);
+    }
+   });
   });
  };
 
@@ -53,6 +67,12 @@ export default function Page() {
       </CardDescription>
      </CardHeader>
      <CardContent>
+      {success && (
+       <div className="bg-emerald-500/15 p-3 rounded-md w-full flex items-center justify-center mb-8 gap-x-2 text-sm text-emerald-500">
+        <div className="h-4 w-4" />
+        <p>{success}</p>
+       </div>
+      )}
       <Form {...form}>
        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
@@ -82,7 +102,23 @@ export default function Page() {
          )}
         />
         {error && <p className="text-red-600">{error}</p>}
-        <Button type="submit">Criar usuário</Button>
+        <div className=" flex flex-col items-center gap-4">
+         <Button disabled={isPending} type="submit">
+          Criar usuário
+         </Button>
+         <Link
+          href={"/login"}
+          className={cn(
+           buttonVariants({
+            variant: "link",
+            size: "lg",
+           }),
+           "w-full"
+          )}
+         >
+          Tela de login
+         </Link>
+        </div>
        </form>
       </Form>
      </CardContent>

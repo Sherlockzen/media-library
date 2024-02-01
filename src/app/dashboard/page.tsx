@@ -1,7 +1,7 @@
 import MediaCard from "@/components/mediaCard";
 import MediaContainer from "@/components/mediaContainer";
 import { validateRequest } from "@/server/auth";
-import React from "react";
+import React, { Suspense } from "react";
 import MediaTable from "@/components/mediaList/mediaList";
 import { redirect } from "next/navigation";
 import {
@@ -9,6 +9,7 @@ import {
  fetchFilesSize,
  fetchMostUsedValueWithUserID,
 } from "@/lib/data";
+import SkeletonTable from "@/components/skeleton/skeletonTable";
 
 async function Dashboard() {
  const { user } = await validateRequest();
@@ -34,12 +35,16 @@ async function Dashboard() {
    <div>
     <MediaContainer>
      <div className=" w-full flex flex-col items-center gap-4 md:flex-row md:justify-center">
-      <MediaCard title="Consumo total:" value={usage} />
-      <MediaCard title="Quantidade total:" value={`${count}`} />
-      <MediaCard title="Tipo mais enviado:" value={mostUsedType} />
+      <Suspense fallback={<p>Carregando...</p>}>
+       <MediaCard title="Consumo total:" value={usage} />
+       <MediaCard title="Quantidade total:" value={`${count}`} />
+       <MediaCard title="Tipo mais enviado:" value={mostUsedType} />
+      </Suspense>
      </div>
     </MediaContainer>
-    <MediaTable />
+    <Suspense fallback={<SkeletonTable />}>
+     <MediaTable />
+    </Suspense>
    </div>
   </section>
  );

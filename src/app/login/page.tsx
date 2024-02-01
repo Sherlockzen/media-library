@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
  Card,
  CardHeader,
@@ -23,9 +23,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/actions/login";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export default function Page() {
- const [error, setError] = useState("");
+ const [error, setError] = useState<string | undefined>("");
  const [isPending, startTransition] = useTransition();
  const form = useForm<z.infer<typeof signinSchema>>({
   resolver: zodResolver(signinSchema),
@@ -34,10 +37,16 @@ export default function Page() {
    password: "",
   },
  });
+ const router = useRouter();
 
  const onSubmit = (data: z.infer<typeof signinSchema>) => {
   startTransition(() => {
-   login(data).then((result) => setError(result?.error));
+   login(data).then((result) => {
+    setError(result?.error);
+    if (result?.success) {
+     router.push("/dashboard");
+    }
+   });
   });
  };
 
@@ -79,7 +88,23 @@ export default function Page() {
          )}
         />
         {error && <p className="text-red-600">{error}</p>}
-        <Button type="submit">Entrar</Button>
+        <div className=" flex flex-col items-center gap-4">
+         <Button disabled={isPending} type="submit">
+          Entrar
+         </Button>
+         <Link
+          href={"/signup"}
+          className={cn(
+           buttonVariants({
+            variant: "link",
+            size: "lg",
+           }),
+           "w-full"
+          )}
+         >
+          Criar usuário
+         </Link>
+        </div>
        </form>
       </Form>
      </CardContent>

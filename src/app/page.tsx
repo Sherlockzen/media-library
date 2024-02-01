@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { validateRequest } from "@/server/auth";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export default async function Home() {
  const { session } = await validateRequest();
@@ -14,8 +15,8 @@ export default async function Home() {
  return (
   <main className=" h-svh pt-28">
    <section className=" flex flex-col md:flex-col xl:flex-row md:items-center md:justify-center text-center xl:text-left gap-12 ">
-    <div className=" mx-8 xl:flex xl:items-center xl:justify-center md:max-w-lg lg:max-w-4xl xl:max-w-7xl gap-8">
-     <div className=" flex flex-col gap-8 ">
+    <div className=" mx-8 xl:items-center xl:justify-center md:max-w-lg lg:max-w-4xl xl:max-w-7xl gap-8">
+     <div className=" flex flex-col gap-8 justify-center items-center">
       <h1 className="text-5xl md:text-6xl font-geist">
        Salve de forma simples na nuvem
       </h1>
@@ -23,30 +24,48 @@ export default async function Home() {
        Tenha os seus arquivos salvos em nuvem com um app minimalista e direto.
        Veja como é fácil, crie sua conta e comece a usar!
       </p>
-      <div className=" flex flex-col xl:flex-col sm:flex-row sm:justify-center gap-6">
+      <div className=" xl:w-[50%] xl:flex-col sm:flex-row gap-6 max-w-[970px]">
        <Link
         href={"/signup"}
-        className=" sm:w-[75%] xl:w-full sm:max-w-96 md:max-w-full"
+        className={cn(
+         buttonVariants({
+          variant: "default",
+          size: "lg",
+         }),
+         `w-full mb-6`
+        )}
        >
-        <Button className="w-full" size={"lg"}>
-         Criar conta
-        </Button>
+        Criar uma conta
        </Link>
-       <Link href={"/login"} className=" md:max-w-full">
-        <Button className=" w-full" variant={"outline"}>
-         Entrar
-        </Button>
+       <Link
+        href={"/login"}
+        className={cn(
+         buttonVariants({
+          variant: "outline",
+          size: "lg",
+         }),
+         "w-full"
+        )}
+       >
+        Entrar
        </Link>
       </div>
      </div>
-     <div className=" px-0.5 md:px-6  flex justify-center items-center lg:justify-start">
-      <Image
-       src={"/media-library-dashboard.png"}
-       alt="Captura da página de dashboard do app"
-       width={1600}
-       height={1600}
-       className=" mt-20 xl:mt-0"
-      />
+     <div>
+      <div className="mx-auto max-w-6xl px-6 lg:px-8">
+       <div className="mt-16 flow-root sm:mt-24">
+        <div className="-m-2 rounded-xl bg-gray-400/5 p-2 ring-1 ring-inset ring-gray-400/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+         <Image
+          src="/media-library-dashboard.png"
+          alt="product preview"
+          width={9600}
+          height={7866}
+          quality={100}
+          className="rounded-md object-cover bg-background p-2 sm:p-8 md:p-16 shadow-2xl ring-1 ring-gray-400/10"
+         />
+        </div>
+       </div>
+      </div>
      </div>
     </div>
    </section>

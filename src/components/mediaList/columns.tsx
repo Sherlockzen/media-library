@@ -65,7 +65,9 @@ export const columns: ColumnDef<Media>[] = [
   cell: ({ row }) => {
    const media = row.original;
 
-   return <ModalDelete mediaId={media.id} fileName={media.title} />;
+   return (
+    <ModalDelete mediaId={media.id} fileName={media.title} link={media.url} />
+   );
   },
  },
 ];

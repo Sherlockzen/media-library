@@ -26,9 +26,11 @@ import { useRouter } from "next/navigation";
 function ModalDelete({
  mediaId,
  fileName,
+ link,
 }: {
  mediaId: string;
  fileName: string;
+ link: string;
 }) {
  const router = useRouter();
  const handleDelete = async () => {
@@ -55,7 +57,9 @@ function ModalDelete({
      </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
-     <DropdownMenuItem>Copiar Link</DropdownMenuItem>
+     <DropdownMenuItem onClick={() => navigator.clipboard.writeText(link)}>
+      Copiar Link
+     </DropdownMenuItem>
      <DropdownMenuItem>
       <AlertDialogTrigger className=" w-full">
        <DropdownMenuItem className=" p-0">

@@ -30,7 +30,7 @@ async function Dashboard() {
  );
 
  return (
-  <section className=" pt-14 border-b">
+  <section className=" pt-14">
    <div>
     <MediaContainer>
      <div className=" w-full flex flex-col items-center gap-4 md:flex-row md:justify-center">
